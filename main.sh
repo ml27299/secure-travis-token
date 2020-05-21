@@ -57,7 +57,7 @@ trim() {
 AskForParam() {
   local question="$1"
   read -rp "$question " REPLY
-  echo trim "$REPLY"
+  echo "$(trim "$REPLY")"
 }
 
 AskIfParamOk() {

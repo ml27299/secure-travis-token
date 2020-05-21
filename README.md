@@ -6,7 +6,7 @@ This cli makes it easier to securely add AWS keys and secrets to travis
 IMPORTANT:
 A git token is required to log into travis via command line, you can generate one using these [instructions]( https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
 
-#install
+# install
 ```shell script
 sudo curl https://raw.githubusercontent.com/ml27299/secure-travis-token/master/install.sh | sudo bash
 ```

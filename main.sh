@@ -165,7 +165,7 @@ generateCommand() {
 GITTOKENRESPONSE=$(generateCommand "$GIT_TOKEN_SECRET")
 GITTOKEN=$(eval "$GITTOKENRESPONSE | jq -r '.token'")
 if [[ $GITTOKEN == "" ]] || [[ -z $GITTOKEN ]]; then
-  echo -e "${RED}Did not find git token from ${GIT_TOKEN_SECRET}, stopping${NC}" >&2
+  echo -e "${RED}Did not find git token from ${GIT_TOKEN_SECRET}, stopping${NC}"
   exit 1
 fi
 

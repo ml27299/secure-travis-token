@@ -11,7 +11,6 @@ The script will rely on 2 secrets from AWS Secrets Manager
 - **AWS_USER_SECRET** - this secret must be a key/value pair secret with at least 2 keys named "AWS_ACCESS_KEY_ID" and "AWS_SECRET_ACCESS_KEY"
 
 # Requirements
-This script relies on 3 cli packages to do its job
 - aws cli ([Learn how to install](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)) 
 - travis cli ([Learn how to install](https://github.com/travis-ci/travis.rb#installation))
 - jq cli ([Learn how to install](https://stedolan.github.io/jq/download/))

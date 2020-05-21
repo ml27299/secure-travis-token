@@ -17,7 +17,7 @@ Just execute the script like so
 ```shell script
 secure-travis
 ```
-This will ask you a series of questions, one all questions are answered, the script will add the key and secret to travis
+This will ask you a series of questions, once all questions are answered, the script will add the key and secret to travis
 
 By default the script will use the default AWS profile and region when grabbing the secrets. You can also specify these values via command line like so
 ```shell script

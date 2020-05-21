@@ -43,7 +43,7 @@ NC="\033[0m"
 AskForParam() {
   local question="$1"
   read -rp "$question" REPLY
-  echo REPLY
+  echo "$REPLY"
 }
 
 echo -e "${CYAN}This script securely adds an AWS user's ${NC}${BLUE}AWS_ACCESS_KEY_ID${NC}${CYAN} and ${NC}${BLUE}AWS_SECRET_ACCESS_KEY${NC}${CYAN} to Travis-ci using AWS Secrets Manager.${NC}"

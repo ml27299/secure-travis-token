@@ -26,7 +26,7 @@ curl https://raw.githubusercontent.com/ml27299/secure-travis-token/master/instal
 alternatively you can just copy the contents of main.sh and put it in the root directory of the project you want to add the credentials for
 
 # Getting started
-Just execute the script like so
+Just cd to to the root directory of your git project and execute the script like so
 ```shell script
 secure-travis
 ```

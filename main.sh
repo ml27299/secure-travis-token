@@ -87,7 +87,8 @@ generateCommand() {
   echo "$BASE --secret-id $SECRET | jq -r '.SecretString"
 }
 
-GITTOKEN=$(eval "$(eval generateCommand "$GITTOKEN_SECRET")" | jq -r '.token')
+GITTOKENRESPONSE=$(eval generateCommand "$GITTOKEN_SECRET")
+GITTOKEN=$(eval "$GITTOKENRESPONSE | jq -r '.token'")
 if [[ $GITTOKEN == "" ]] || [[ -z $GITTOKEN ]]; then
   echo "Did not find git token from ${GITTOKEN_SECRET}, stopping" >&2
   exit 1

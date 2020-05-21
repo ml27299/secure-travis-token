@@ -62,13 +62,13 @@ echo -e "${RED}IMPORTANT:${NC} ${CYAN}The secret where your aws user credentials
 echo -e "${RED}IMPORTANT:${NC} ${CYAN}The secret where your gittoken lives must be a key/value pair secret with at least these one key ${NC}${BLUE}token${NC}"
 echo ""
 
-GIT_TOKEN_SECRET=$(AskForParam "What is the id of the secret where your git token lives?")
+GIT_TOKEN_SECRET=$(AskForParam "What is the id of your git token secret?")
 if [[ $GIT_TOKEN_SECRET == "" ]] || [[ -z $GIT_TOKEN_SECRET ]]; then
   echo "git token secret id not supplied" >&2
   exit 1
 fi
 
-AWS_USER_SECRET=$(AskForParam "What is the id of the secret where your aws user credentials live?")
+AWS_USER_SECRET=$(AskForParam "What is the id of your aws user secret?")
 if [[ $AWS_USER_SECRET == "" ]] || [[ -z $AWS_USER_SECRET ]]; then
   echo "aws user secret id is not supplied" >&2
   exit 1
@@ -76,10 +76,10 @@ fi
 
 if [[ $USE_DEFAULTS != true ]]; then
   if [[ -z $AWS_REGION ]]; then
-    AWS_REGION=$(AskForParam "What is the AWS region your secrets live? (defaults to the default profile in ~/.aws/config)")
+    AWS_REGION=$(AskForParam "What AWS region are your secrets located? (defaults to the default profile in ~/.aws/config)")
   fi
   if [[ -z $AWS_PROFILE ]]; then
-    AWS_PROFILE=$(AskForParam "What is the AWS profile you'd liek to use to access your secrets? (defaults to the default profile in ~/.aws/credentials)")
+    AWS_PROFILE=$(AskForParam "What is the AWS profile you'd like to use to access your secrets? (defaults to the default profile in ~/.aws/credentials)")
   fi
 fi
 

@@ -87,14 +87,14 @@ generateCommand() {
   echo "$BASE --secret-id $SECRET | jq -r '.SecretString'"
 }
 
-GITTOKENRESPONSE=$(eval generateCommand "$GITTOKEN_SECRET")
+GITTOKENRESPONSE=$(generateCommand "$GITTOKEN_SECRET")
 GITTOKEN=$(eval "$GITTOKENRESPONSE | jq -r '.token'")
 if [[ $GITTOKEN == "" ]] || [[ -z $GITTOKEN ]]; then
   echo "Did not find git token from ${GITTOKEN_SECRET}, stopping" >&2
   exit 1
 fi
 
-AWS_RESPONSE=$(eval generateCommand "$TRAVIS_USER_SECRET")
+AWS_RESPONSE=$(generateCommand "$TRAVIS_USER_SECRET")
 AWS_KEY=$(eval "$AWS_RESPONSE | jq -r '.key'")
 AWS_SECRET=$(eval "$AWS_RESPONSE | jq -r '.secret'")
 if [[ $AWS_KEY == "" ]] || [[ -z $AWS_KEY ]]; then

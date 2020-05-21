@@ -4,7 +4,8 @@ Travis is a great ci/cd tool, but when you want to securely add resources to you
 This cli makes it easier to securely add AWS keys and secrets to travis
 
 # Important
-A git token is required to log into travis via command line, you can generate one using these [instructions]( https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
+A git token is required to log into travis via command line, you can generate one using these [instructions]( https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line). 
+Once you have a git token, add it to AWS Secrets Manager
 
 The script will rely on 2 secrets from AWS Secrets Manager
 - **GIT_TOKEN_SECRET** - this secret must be a key/value pair secret with at least 1 key named "token"

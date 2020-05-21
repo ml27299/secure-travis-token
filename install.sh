@@ -1,9 +1,17 @@
 TAG=$1
 
-if (($EUID != 0)); then
+if [[ $TAG == "" ]] || [[ -z $TAG ]]; then
+  TAG="secure-travis"
+fi
+
+if ((EUID != 0)); then
   echo "Please run command as root."
   exit
 fi
 
-DOWNLOADER="https://raw.githubusercontent.com/ml27299/lit-cli/master/godownloader.sh"
-curl -sL -o- ${DOWNLOADER} | bash -s -- -b /usr/local/bin $TAG
+FILE="https://raw.githubusercontent.com/ml27299/secure-travis-token/master/main.sh"
+curl -sL -o- ${FILE} > /usr/local/bin/$TAG
+
+chmod a+x /usr/local/bin/$TAG
+
+echo "Installed secure-travis-token!"

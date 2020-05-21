@@ -84,7 +84,7 @@ generateCommand() {
   if [[ -n $AWS_REGION ]]; then
     BASE="$BASE --region $AWS_REGION"
   fi
-  echo "$BASE --secret-id $SECRET | jq -r '.SecretString"
+  echo "$BASE --secret-id $SECRET | jq -r '.SecretString'"
 }
 
 GITTOKENRESPONSE=$(eval generateCommand "$GITTOKEN_SECRET")

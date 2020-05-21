@@ -33,7 +33,7 @@ secure-travis
 ```
 This will ask you a series of questions, once all questions are answered, the script will add the key and secret to travis
 
-By default the script will use the default AWS profile and region when grabbing the secrets. You can also specify these values via command line like so
+By default the script will ask you to enter an AWS profile and region to use when grabbing the secrets. You can also specify these values via command line like so, this will cause the script to not ask those questions
 ```shell script
 secure-travis -p myProfile -r us-east-2
 #alternatively

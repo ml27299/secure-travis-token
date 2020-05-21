@@ -7,17 +7,17 @@ RED="\033[0;31m"
 NC="\033[0m"
 
 if ! [ -x "$(command -v travis)" ]; then
-  echo -e "${RED}Error: travis is not installed.${NC}" >&2
+  echo -e "${RED}Error: travis is not installed.${NC}"
   exit 1
 fi
 
 if ! [ -x "$(command -v aws)" ]; then
-  echo -e "${RED}Error: aws is not installed.${NC}" >&2
+  echo -e "${RED}Error: aws is not installed.${NC}"
   exit 1
 fi
 
 if ! [ -x "$(command -v jq)" ]; then
-  echo -e "${RED}Error: jq is not installed.${NC}" >&2
+  echo -e "${RED}Error: jq is not installed.${NC}"
   exit 1
 fi
 
@@ -123,12 +123,12 @@ fi
 if [[ $(AskIfParamOk) == false ]]; then
   GIT_TOKEN_SECRET=$(AskForParam "What is the id of your git token secret?")
   if [[ $GIT_TOKEN_SECRET == "" ]] || [[ -z $GIT_TOKEN_SECRET ]]; then
-    echo "${RED}git token secret id not supplied${NC}" >&2
+    echo "${RED}git token secret id not supplied${NC}"
     exit 1
   fi
   AWS_USER_SECRET=$(AskForParam "What is the id of your aws user secret?")
   if [[ $AWS_USER_SECRET == "" ]] || [[ -z $AWS_USER_SECRET ]]; then
-    echo -e "${RED}aws user secret id is not supplied${NC}" >&2
+    echo -e "${RED}aws user secret id is not supplied${NC}"
     exit 1
   fi
   if [[ $USE_DEFAULTS != true ]]; then
@@ -173,11 +173,11 @@ AWS_RESPONSE=$(generateCommand "$AWS_USER_SECRET")
 AWS_KEY=$(eval "$AWS_RESPONSE | jq -r '.AWS_ACCESS_KEY_ID'")
 AWS_SECRET=$(eval "$AWS_RESPONSE | jq -r '.AWS_SECRET_ACCESS_KEY'")
 if [[ $AWS_KEY == "" ]] || [[ -z $AWS_KEY ]]; then
-  echo -e "${RED}Did not find aws key from $AWS_USER_SECRET, stopping${NC}" >&2
+  echo -e "${RED}Did not find aws key from $AWS_USER_SECRET, stopping${NC}"
   exit 1
 fi
 if [[ $AWS_KEY == "" ]] || [[ -z $AWS_KEY ]]; then
-  echo -e "${RED}Did not find aws secret from $AWS_USER_SECRET, stopping${NC}" >&2
+  echo -e "${RED}Did not find aws secret from $AWS_USER_SECRET, stopping${NC}"
   exit 1
 fi
 

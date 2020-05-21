@@ -28,7 +28,7 @@ alternatively you can just copy the contents of main.sh and put it in the root d
 # Getting started
 Just go to the root directory of your git project and execute the script like so
 ```shell script
-cd /path/togit/project
+cd /path/to/git/project
 secure-travis
 ```
 This will ask you a series of questions, once all questions are answered, the script will add the key and secret to travis

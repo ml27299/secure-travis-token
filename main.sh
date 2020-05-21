@@ -1,17 +1,23 @@
 #!/bin/bash
 
+BO="\033[0;33m"
+BLUE="\033[1;34m"
+CYAN="\033[1;36m"
+RED="\033[0;31m"
+NC="\033[0m"
+
 if ! [ -x "$(command -v travis)" ]; then
-  echo 'Error: travis is not installed.' >&2
+  echo -e "${RED}Error: travis is not installed.${NC}" >&2
   exit 1
 fi
 
 if ! [ -x "$(command -v aws)" ]; then
-  echo 'Error: aws is not installed.' >&2
+  echo -e "${RED}Error: aws is not installed.${NC}" >&2
   exit 1
 fi
 
 if ! [ -x "$(command -v jq)" ]; then
-  echo 'Error: jq is not installed.' >&2
+  echo -e "${RED}Error: jq is not installed.${NC}" >&2
   exit 1
 fi
 
@@ -38,12 +44,6 @@ while [[ $# -gt 0 ]]; do
   esac
   shift
 done
-
-BO="\033[0;33m"
-BLUE="\033[1;34m"
-CYAN="\033[1;36m"
-RED="\033[0;31m"
-NC="\033[0m"
 
 trim() {
     local var="$*"
@@ -76,7 +76,7 @@ echo ""
 if [[ -z $GIT_TOKEN_SECRET ]]; then
   GIT_TOKEN_SECRET=$(AskForParam "What is the id of your git token secret?")
   if [[ $GIT_TOKEN_SECRET == "" ]] || [[ -z $GIT_TOKEN_SECRET ]]; then
-    echo "git token secret id not supplied" >&2
+    echo -e "${RED}git token secret id not supplied${NC}" >&2
     exit 1
   fi
 fi
@@ -84,7 +84,7 @@ fi
 if [[ -z $AWS_USER_SECRET ]]; then
   AWS_USER_SECRET=$(AskForParam "What is the id of your aws user secret?")
   if [[ $AWS_USER_SECRET == "" ]] || [[ -z $AWS_USER_SECRET ]]; then
-    echo "aws user secret id is not supplied" >&2
+    echo -e "${RED}aws user secret id is not supplied${NC}" >&2
     exit 1
   fi
 fi
@@ -123,12 +123,12 @@ fi
 if [[ $(AskIfParamOk) == false ]]; then
   GIT_TOKEN_SECRET=$(AskForParam "What is the id of your git token secret?")
   if [[ $GIT_TOKEN_SECRET == "" ]] || [[ -z $GIT_TOKEN_SECRET ]]; then
-    echo "git token secret id not supplied" >&2
+    echo "${RED}git token secret id not supplied${NC}" >&2
     exit 1
   fi
   AWS_USER_SECRET=$(AskForParam "What is the id of your aws user secret?")
   if [[ $AWS_USER_SECRET == "" ]] || [[ -z $AWS_USER_SECRET ]]; then
-    echo "aws user secret id is not supplied" >&2
+    echo -e "${RED}aws user secret id is not supplied${NC}" >&2
     exit 1
   fi
   if [[ $USE_DEFAULTS != true ]]; then
@@ -165,7 +165,7 @@ generateCommand() {
 GITTOKENRESPONSE=$(generateCommand "$GIT_TOKEN_SECRET")
 GITTOKEN=$(eval "$GITTOKENRESPONSE | jq -r '.token'")
 if [[ $GITTOKEN == "" ]] || [[ -z $GITTOKEN ]]; then
-  echo "Did not find git token from ${GIT_TOKEN_SECRET}, stopping" >&2
+  echo -e "${RED}Did not find git token from ${GIT_TOKEN_SECRET}, stopping${NC}" >&2
   exit 1
 fi
 
@@ -173,11 +173,11 @@ AWS_RESPONSE=$(generateCommand "$AWS_USER_SECRET")
 AWS_KEY=$(eval "$AWS_RESPONSE | jq -r '.AWS_ACCESS_KEY_ID'")
 AWS_SECRET=$(eval "$AWS_RESPONSE | jq -r '.AWS_SECRET_ACCESS_KEY'")
 if [[ $AWS_KEY == "" ]] || [[ -z $AWS_KEY ]]; then
-  echo "Did not find aws key from $AWS_USER_SECRET, stopping" >&2
+  echo -e "${RED}Did not find aws key from $AWS_USER_SECRET, stopping${NC}" >&2
   exit 1
 fi
 if [[ $AWS_KEY == "" ]] || [[ -z $AWS_KEY ]]; then
-  echo "Did not find aws secret from $AWS_USER_SECRET, stopping" >&2
+  echo -e "${RED}Did not find aws secret from $AWS_USER_SECRET, stopping${NC}" >&2
   exit 1
 fi
 

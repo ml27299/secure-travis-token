@@ -15,7 +15,7 @@ The script will rely on 2 secrets from AWS Secrets Manager
 - travis cli ([Learn how to install](https://github.com/travis-ci/travis.rb#installation))
 - jq cli ([Learn how to install](https://stedolan.github.io/jq/download/))
 
-# install
+# Install
 ```shell script
 curl https://raw.githubusercontent.com/ml27299/secure-travis-token/master/install.sh | sudo bash
 ```

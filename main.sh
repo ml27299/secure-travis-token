@@ -62,14 +62,14 @@ echo -e "${RED}IMPORTANT:${NC} ${CYAN}The secret where your aws user credentials
 echo -e "${RED}IMPORTANT:${NC} ${CYAN}The secret where your gittoken lives must be a key/value pair secret with at least these one key ${NC}${BLUE}token${NC}"
 echo ""
 
-GITTOKEN_SECRET=$(AskForParam "What is the id of the secret where your git token lives?")
-if [[ $GITTOKEN_SECRET == "" ]] || [[ -z $GITTOKEN_SECRET ]]; then
+GIT_TOKEN_SECRET=$(AskForParam "What is the id of the secret where your git token lives?")
+if [[ $GIT_TOKEN_SECRET == "" ]] || [[ -z $GIT_TOKEN_SECRET ]]; then
   echo "git token secret id not supplied" >&2
   exit 1
 fi
 
-TRAVIS_USER_SECRET=$(AskForParam "What is the id of the secret where your aws user credentials live?")
-if [[ $TRAVIS_USER_SECRET == "" ]] || [[ -z $TRAVIS_USER_SECRET ]]; then
+AWS_USER_SECRET=$(AskForParam "What is the id of the secret where your aws user credentials live?")
+if [[ $AWS_USER_SECRET == "" ]] || [[ -z $AWS_USER_SECRET ]]; then
   echo "aws user secret id is not supplied" >&2
   exit 1
 fi
@@ -96,22 +96,22 @@ generateCommand() {
   echo "$BASE --secret-id $SECRET | jq -r '.SecretString'"
 }
 
-GITTOKENRESPONSE=$(generateCommand "$GITTOKEN_SECRET")
+GITTOKENRESPONSE=$(generateCommand "$GIT_TOKEN_SECRET")
 GITTOKEN=$(eval "$GITTOKENRESPONSE | jq -r '.token'")
 if [[ $GITTOKEN == "" ]] || [[ -z $GITTOKEN ]]; then
-  echo "Did not find git token from ${GITTOKEN_SECRET}, stopping" >&2
+  echo "Did not find git token from ${GIT_TOKEN_SECRET}, stopping" >&2
   exit 1
 fi
 
-AWS_RESPONSE=$(generateCommand "$TRAVIS_USER_SECRET")
-AWS_KEY=$(eval "$AWS_RESPONSE | jq -r '.key'")
-AWS_SECRET=$(eval "$AWS_RESPONSE | jq -r '.secret'")
+AWS_RESPONSE=$(generateCommand "$AWS_USER_SECRET")
+AWS_KEY=$(eval "$AWS_RESPONSE | jq -r '.AWS_ACCESS_KEY_ID'")
+AWS_SECRET=$(eval "$AWS_RESPONSE | jq -r '.AWS_SECRET_ACCESS_KEY'")
 if [[ $AWS_KEY == "" ]] || [[ -z $AWS_KEY ]]; then
-  echo "Did not find aws key for travis user, stopping" >&2
+  echo "Did not find aws key from $AWS_USER_SECRET, stopping" >&2
   exit 1
 fi
 if [[ $AWS_KEY == "" ]] || [[ -z $AWS_KEY ]]; then
-  echo "Did not find aws secret for travis user, stopping" >&2
+  echo "Did not find aws secret from $AWS_USER_SECRET, stopping" >&2
   exit 1
 fi
 

@@ -8,7 +8,7 @@ A git token is required to log into travis via command line, you can generate on
 
 # install
 ```shell script
-sudo curl https://raw.githubusercontent.com/ml27299/secure-travis-token/master/install.sh | sudo bash
+curl https://raw.githubusercontent.com/ml27299/secure-travis-token/master/install.sh | sudo bash
 ```
 alternatively you can just copy the contents of main.sh and put it in the root directory of the project you want to add the credentials for
 

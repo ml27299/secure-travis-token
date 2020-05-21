@@ -54,6 +54,7 @@ echo -e "${RED}IMPORTANT:${NC} ${CYAN}The secret where your gittoken lives must 
 echo ""
 
 GITTOKEN_SECRET=$(AskForParam "What is the id of the secret where your git token lives?")
+echo "$GITTOKEN_SECRET"
 if [[ $GITTOKEN_SECRET == "" ]] || [[ -z $GITTOKEN_SECRET ]]; then
   echo "git token secret id not supplied" >&2
   exit 1

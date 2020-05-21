@@ -25,6 +25,16 @@ curl https://raw.githubusercontent.com/ml27299/secure-travis-token/master/instal
 ```
 alternatively you can just copy the contents of main.sh and put it in the root directory of the project you want to add the credentials for
 
+When the script installs it will add itself to /usr/local/bin and create a file in $HOME/.secure-travis/default.config, use this file to set environment variables
+
+# Environment variables
+You can get around having to answer questions or passing options to the script by filling out the $HOME/.secure-travis/default.config file
+
+- AWS_USER_SECRET=awsUserSecretId
+- GIT_TOKEN_SECRET=gitTokenSecretId
+- AWS_REGION=us-east-2
+- AWS_PROFILE=myAwsProfile
+
 # Getting started
 Just go to the root directory of your git project and execute the script like so
 ```shell script

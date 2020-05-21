@@ -15,6 +15,11 @@ if ! [ -x "$(command -v jq)" ]; then
   exit 1
 fi
 
+while read -r var
+do
+    export "${var?}"
+done < "$HOME/.secure-travis/default.config"
+
 while [[ $# -gt 0 ]]; do
   key="$1"
   case $key in
@@ -62,16 +67,20 @@ echo -e "${RED}IMPORTANT:${NC} ${CYAN}The secret where your aws user credentials
 echo -e "${RED}IMPORTANT:${NC} ${CYAN}The secret where your gittoken lives must be a key/value pair secret with at least these one key ${NC}${BLUE}token${NC}"
 echo ""
 
-GIT_TOKEN_SECRET=$(AskForParam "What is the id of your git token secret?")
-if [[ $GIT_TOKEN_SECRET == "" ]] || [[ -z $GIT_TOKEN_SECRET ]]; then
-  echo "git token secret id not supplied" >&2
-  exit 1
+if [[ -z $GIT_TOKEN_SECRET ]]; then
+  GIT_TOKEN_SECRET=$(AskForParam "What is the id of your git token secret?")
+  if [[ $GIT_TOKEN_SECRET == "" ]] || [[ -z $GIT_TOKEN_SECRET ]]; then
+    echo "git token secret id not supplied" >&2
+    exit 1
+  fi
 fi
 
-AWS_USER_SECRET=$(AskForParam "What is the id of your aws user secret?")
-if [[ $AWS_USER_SECRET == "" ]] || [[ -z $AWS_USER_SECRET ]]; then
-  echo "aws user secret id is not supplied" >&2
-  exit 1
+if [[ -z $AWS_USER_SECRET ]]; then
+  AWS_USER_SECRET=$(AskForParam "What is the id of your aws user secret?")
+  if [[ $AWS_USER_SECRET == "" ]] || [[ -z $AWS_USER_SECRET ]]; then
+    echo "aws user secret id is not supplied" >&2
+    exit 1
+  fi
 fi
 
 if [[ $USE_DEFAULTS != true ]]; then
@@ -82,6 +91,11 @@ if [[ $USE_DEFAULTS != true ]]; then
     AWS_PROFILE=$(AskForParam "What is the AWS profile you'd like to use to access your secrets? (defaults to the default profile in ~/.aws/credentials)")
   fi
 fi
+
+echo "GIT_TOKEN_SECRET: $GIT_TOKEN_SECRET"
+echo "AWS_USER_SECRET: $AWS_USER_SECRET"
+echo "AWS_REGION: $AWS_REGION"
+echo "AWS_PROFILE: $AWS_PROFILE"
 
 generateCommand() {
   local SECRET="$1"

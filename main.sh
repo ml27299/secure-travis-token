@@ -40,10 +40,19 @@ CYAN="\033[1;36m"
 RED="\033[0;31m"
 NC="\033[0m"
 
+trim() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"
+    printf '%s' "$var"
+}
+
 AskForParam() {
   local question="$1"
-  read -rp "$question" REPLY
-  echo "$REPLY"
+  read -rp "$question " REPLY
+  echo trim "$REPLY"
 }
 
 echo -e "${CYAN}This script securely adds an AWS user's ${NC}${BLUE}AWS_ACCESS_KEY_ID${NC}${CYAN} and ${NC}${BLUE}AWS_SECRET_ACCESS_KEY${NC}${CYAN} to Travis-ci using AWS Secrets Manager.${NC}"
@@ -54,7 +63,6 @@ echo -e "${RED}IMPORTANT:${NC} ${CYAN}The secret where your gittoken lives must 
 echo ""
 
 GITTOKEN_SECRET=$(AskForParam "What is the id of the secret where your git token lives?")
-echo "$GITTOKEN_SECRET"
 if [[ $GITTOKEN_SECRET == "" ]] || [[ -z $GITTOKEN_SECRET ]]; then
   echo "git token secret id not supplied" >&2
   exit 1

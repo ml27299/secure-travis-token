@@ -15,6 +15,9 @@ The script will rely on 2 secrets from AWS Secrets Manager
 - travis cli ([Learn how to install](https://github.com/travis-ci/travis.rb#installation))
 - jq cli ([Learn how to install](https://stedolan.github.io/jq/download/))
 
+NOTE:
+The install may not work for Windows machines
+
 # Install
 ```shell script
 curl https://raw.githubusercontent.com/ml27299/secure-travis-token/master/install.sh | sudo bash
@@ -35,7 +38,7 @@ secure-travis -p myProfile -r us-east-2
 secure-travis --profile --region us-east-2
 ```
 
-If you'd like to use the defaults and tell the script to skip asking for them you can do like so
+If you'd like to use the defaults located in **~/.aws/config** and **~/.aws/credentials** and tell the script to skip asking for them you can do like so
 ```shell script
 secure-travis -d
 #alternatively

@@ -19,6 +19,12 @@ curl -sL -o- ${FILE} > /usr/local/bin/$TAG
 
 chmod a+x /usr/local/bin/$TAG
 
-mkdir "$HOME/.secure-travis"
-touch "$HOME/.secure-travis/default.config"
+if [[ ! -d "$HOME/.secure-travis" ]]; then
+  mkdir "$HOME/.secure-travis"
+fi
+
+if [[ ! -f "$HOME/.secure-travis/default.config" ]]; then
+  touch "$HOME/.secure-travis/default.config"
+fi
+
 echo "Installed secure-travis-token!"

@@ -60,6 +60,12 @@ AskForParam() {
   echo trim "$REPLY"
 }
 
+AskIfParamOk() {
+  read -rp "Is this information correct? " REPLY
+  if [[ $REPLY =~ ^[Yy]$ ]]; then echo true;
+	else echo false; fi
+}
+
 echo -e "${CYAN}This script securely adds an AWS user's ${NC}${BLUE}AWS_ACCESS_KEY_ID${NC}${CYAN} and ${NC}${BLUE}AWS_SECRET_ACCESS_KEY${NC}${CYAN} to Travis-ci using AWS Secrets Manager.${NC}"
 echo -e "${CYAN}The script works by using your host machines AWS credentials to grab sensitive information, then it authenticates to Travis using your generated git token${NC}\n"
 echo -e "${BO}To understand how to generate a git token, follow this link https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line${NC}\n"
@@ -92,10 +98,56 @@ if [[ $USE_DEFAULTS != true ]]; then
   fi
 fi
 
+if [[ $USE_DEFAULTS = true ]]; then
+  if [[ -n $AWS_REGION ]]; then
+    unset AWS_REGION
+  fi
+  if [[ -n $AWS_PROFILE ]]; then
+    unset AWS_PROFILE
+  fi
+fi
+
 echo "GIT_TOKEN_SECRET: $GIT_TOKEN_SECRET"
 echo "AWS_USER_SECRET: $AWS_USER_SECRET"
-echo "AWS_REGION: $AWS_REGION"
-echo "AWS_PROFILE: $AWS_PROFILE"
+if [[ -n $AWS_REGION ]]; then
+    echo "AWS_REGION: $AWS_REGION"
+  else
+    echo "AWS_REGION: default"
+fi
+if [[ -n $AWS_PROFILE ]]; then
+    echo "AWS_PROFILE: $AWS_PROFILE"
+  else
+    echo "AWS_PROFILE: default"
+fi
+
+if [[ $(AskIfParamOk) == false ]]; then
+  GIT_TOKEN_SECRET=$(AskForParam "What is the id of your git token secret?")
+  if [[ $GIT_TOKEN_SECRET == "" ]] || [[ -z $GIT_TOKEN_SECRET ]]; then
+    echo "git token secret id not supplied" >&2
+    exit 1
+  fi
+  AWS_USER_SECRET=$(AskForParam "What is the id of your aws user secret?")
+  if [[ $AWS_USER_SECRET == "" ]] || [[ -z $AWS_USER_SECRET ]]; then
+    echo "aws user secret id is not supplied" >&2
+    exit 1
+  fi
+  if [[ $USE_DEFAULTS != true ]]; then
+    AWS_REGION=$(AskForParam "What AWS region are your secrets located? (defaults to the default profile in ~/.aws/config)")
+    AWS_PROFILE=$(AskForParam "What is the AWS profile you'd like to use to access your secrets? (defaults to the default profile in ~/.aws/credentials)")
+  fi
+  echo "GIT_TOKEN_SECRET: $GIT_TOKEN_SECRET"
+  echo "AWS_USER_SECRET: $AWS_USER_SECRET"
+  if [[ -n $AWS_REGION ]]; then
+      echo "AWS_REGION: $AWS_REGION"
+    else
+      echo "AWS_REGION: default"
+  fi
+  if [[ -n $AWS_PROFILE ]]; then
+      echo "AWS_PROFILE: $AWS_PROFILE"
+    else
+      echo "AWS_PROFILE: default"
+  fi
+fi
 
 generateCommand() {
   local SECRET="$1"

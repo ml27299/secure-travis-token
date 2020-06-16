@@ -181,7 +181,7 @@ if [[ $AWS_KEY == "" ]] || [[ -z $AWS_KEY ]]; then
   exit 1
 fi
 
-eval "travis login --pro --github-token $GITTOKEN"
+eval "travis login --com --pro --github-token $GITTOKEN"
 eval "travis env set gittoken $GITTOKEN"
 eval "travis env set AWS_ACCESS_KEY_ID $AWS_KEY"
 eval "travis env set AWS_SECRET_ACCESS_KEY $AWS_SECRET"
